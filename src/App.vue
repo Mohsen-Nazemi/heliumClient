@@ -1,6 +1,26 @@
+<template>
+  <Header></Header>
+  <router-view></router-view>
+  <Footer></Footer>
+</template>
+
+
+<script>
+  import Header from '@/components/TheHeader'
+  import Footer from '@/components/TheFooter'
+  export default {
+    name: 'App',
+    components:{
+      Header,
+      Footer
+    }
+  }
+</script>
+
+<style>
 @font-face {
     font-family: 'Bahij';
-    src: url('../font/bahij/bahij_helvetica_neue_roman_by_bahijvirtualacademy_dammd50.ttf');
+    src: url('./assets/fonts/bahij/bahij_helvetica_neue_roman_by_bahijvirtualacademy_dammd50.ttf');
     font-weight: normal;
     font-style: normal;
 }
@@ -39,19 +59,17 @@ a {
 }
 
 /* ==================================Header=============================== */
-header {
-
+.header {
+    padding: 0.75rem 1.5rem 0.6875rem 1.5rem;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.05);
 }
 
-.header {
+.headerContainer {
     width: 100%;
-    /* height: 4.063rem; */
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.625rem;
     display: flex;
-    padding: 0.75rem 1.5rem 0.6875rem 1.5rem;
     align-items: center;
 }
 
@@ -245,7 +263,7 @@ header {
     margin-right: 0;
 }
 
-.selectedTopics > div:not(:first-child):not(:last-child) {
+.selectedTopics>div:not(:first-child):not(:last-child) {
     background-color: #eef2f3;
     padding: 0.25rem 0.9375rem;
     border-radius: 1.0625rem;
@@ -276,6 +294,7 @@ header {
 }
 
 .cardsMenu {
+    width: 100%;
     display: flex;
     margin-top: 1.875rem;
     border-bottom: 1px solid rgba(19, 158, 202, 0.3);
@@ -287,6 +306,8 @@ header {
     padding-bottom: 0.9688rem;
 }
 
+
+
 .cardsMenu__label--active {
     border-bottom: 1px solid #139eca;
     color: #139eca;
@@ -295,18 +316,19 @@ header {
 }
 
 
-.streamCard {
+
+
+.postCard {
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     align-items: center;
     padding: 1rem;
     max-width: 375px;
-    margin-top: 2.5rem;
+    margin: 2.5rem auto 0 auto;
     border-radius: 8px;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
 }
-
-
 
 .postHeader {
     display: flex;
@@ -352,7 +374,6 @@ header {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     margin-top: 1.25rem;
-    height: 4rem;
     font-size: 1.25rem;
     line-height: 1.5;
     overflow: hidden;
@@ -380,7 +401,6 @@ header {
     color: #5a5a5a;
     margin-top: 1.375rem;
     align-items: center;
-    margin-bottom: 1.9375rem;
 }
 
 .postDate::after,
@@ -404,13 +424,13 @@ header {
 }
 
 .postBookmark,
-.article-like {
+.postLike {
     border: none;
     background-color: transparent;
 }
 
 .postBookmark img,
-.article-like img {
+.postLike img {
     height: 1.5rem;
     width: 1.5rem;
     object-fit: contain;
@@ -418,7 +438,7 @@ header {
 }
 
 
-.streamCard__cover {
+.postCard__cover {
     /* width: 100%; */
     order: -1;
     max-width: 100%;
@@ -427,10 +447,33 @@ header {
     max-width: 458px;
 }
 
-.streamCard__cover img {
+.postCard__cover img {
     width: 100%;
     border-radius: 0.3125rem;
 }
+
+.postCard__img {
+    position: relative;
+}
+
+.postCard:hover .postCard__img::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 98%;
+    background-color: rgba(48, 191, 183, 0.9);
+    opacity: 0;
+    border-radius: 5px;
+    transition: .5s ease;
+    opacity: 0.23;
+}
+
+.postCard:hover .postTitle {
+    color: #30bfb7;
+}
+
 
 /* ---single page--- */
 .singleContainer {
@@ -445,56 +488,49 @@ header {
     margin-left: 1.5rem;
 }
 
-.articleImage img {
+.postImage {
+    margin: 1.25rem 0 0.625rem 0;
+}
+
+.postImage img {
     width: 100%;
     border-radius: 5px;
 }
 
-.articleText {
+.postText {
     font-size: 1.125rem;
-    margin: 1.875rem 0 2.5rem 0;
+    margin: 1.25rem 0 0.625rem 0;
 }
 
 .authorOtherPosts .cardsMenu__label {
     border-bottom: 1px solid #139eca;
 }
 
-/* --userPost */
-.userPost {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.userPost__img {
-    width: 34.9%;
-    margin-left: 4%;
-}
-
-.userPost__img img {
-    width: 100%;
-    border-radius: 5px;
-}
-
-.userPost__content {
-    max-width: 61%;
-}
-
-.userPost__title {
-    font-size: 1.25rem;
-    line-height: 1.5;
+/* --postSuggestion */
+.singleContainer .cardsMenu .cardsMenu__label {
     font-weight: bold;
+    border-bottom: 1px solid #139eca;
 }
 
-.userPost .postInfo {
-    justify-content: center;
+
+.postSuggestion .postCard {
+    align-items: start;
+    margin-top: 1.875rem;
 }
 
-/* ========Footer================ */
+.postSuggestion .postCard .postTitle {
+    margin-top: 5px;
+    -webkit-line-clamp: 3;
+    line-height: 2;
+    height: auto;
+}
+
+
+/* ==========================Footer================================== */
 
 .footer-container {
     background-color: rgb(35, 47, 61);
-    background-image: url(../images/Pattern.svg);
+    background-image: url('./assets/images/Pattern.svg');
     position: relative;
     display: flex;
     justify-content: space-around;
@@ -508,8 +544,6 @@ header {
     padding-bottom: 2.44rem;
 
 }
-
-
 
 .footer-container::before {
     content: "";
@@ -562,14 +596,10 @@ header {
 
 }
 
-.comment {
+.commentItem {
     margin-top: 1.25rem;
     padding-bottom: 1.25rem;
-}
-
-.commentBoth {
     border-bottom: 1px solid rgba(19, 158, 202, 0.3);
-
 }
 
 .comment__info {
@@ -577,7 +607,7 @@ header {
     justify-content: space-between;
 }
 
-.comments img {
+.commentItem img {
     width: 24px;
     height: 24px;
 }
@@ -614,7 +644,7 @@ header {
 
 }
 
-.responseComment {
+.replyComment {
     margin-right: 97px;
 }
 
@@ -622,6 +652,7 @@ header {
 .formComment .formCommentTop>* {
     display: flex;
     flex-direction: column;
+    margin-bottom: 1.25rem;
 }
 
 .formComment .formCommentTop {
@@ -643,19 +674,19 @@ header {
 }
 
 
-.formName {
+.formComment__name {
     width: 22%;
-
+    min-width: 150px;
 }
 
-.formFamily {
+.formComment__family {
     width: 22%;
-
+    min-width: 200px;
 }
 
-.formEmail {
+.formComment__email {
     width: 47%;
-
+    min-width: 300px;
 }
 
 #txtArea {
@@ -678,21 +709,19 @@ header {
 /* =====================Media Query=================== */
 /* -------Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
-
-    .streamCard {
+    .postCard {
         flex-direction: row;
-        padding: 0 1rem;
+        padding: 0;
         max-width: unset;
         box-shadow: none;
     }
 
-    .streamCard__cover {
+    .postCard__cover {
         order: 0;
         width: 40.1%;
     }
 
-    .streamCard__content {
-        margin-left: 6.6vw;
+    .postCard__content {
         width: 48.6%;
     }
 
@@ -709,22 +738,15 @@ header {
         position: static;
     }
 
-    /* --userPost */
-    .userPost {
-        flex-direction: row;
-        align-items: normal;
-        margin-top: 1.875rem;
+    /* --postSuggestion */
+
+    .postSuggestion .postCard .postCard__cover {
+        width: 34.9%;
     }
 
-    .userPost__title {
-        line-height: 2;
-
+    .postSuggestion .postCard .postCard__content {
+        width: 61%;
     }
-
-    .userPost .postInfo {
-        justify-content: flex-start;
-    }
-
 }
 
 /* -------Medium devices (tablets portrait, 768px and up) */
@@ -733,14 +755,14 @@ header {
         font-size: 14px
     }
 
-    .streamCard__description {
-        line-height: 2;
-        height: 4rem;
-    }
-
-    .pageBody {
+    .secondaryAlignment {
         min-width: 750px;
         max-width: 40%;
+    }
+
+    .postCard__description {
+        line-height: 2;
+        height: 4rem;
     }
 
     .formComment .formCommentTop {
@@ -759,21 +781,11 @@ header {
         line-height: 2;
         height: 4rem;
     }
-
-    .singleContainer .cardsMenu .cardsMenu__label {
-        font-weight: bold;
-        border-bottom: 1px solid #139eca;
-    }
-
-
-
 }
 
 /* ------(laptop, 1200px and up) 12.5 inch and up */
 @media (min-width: 1200px) {
-
-    .header,
-    .mainHeader {
+    .primaryAlignment {
         width: 59.4%;
         min-width: 1140px;
         margin: auto;
@@ -781,10 +793,6 @@ header {
 
     html {
         font-size: 16px;
-    }
-
-    .streamCard__content {
-        max-width: 29vw;
     }
 }
 
@@ -803,39 +811,10 @@ header {
         left: 50%;
     }
 
-    .streamCard {
+    .postCard {
         max-height: 303px;
     }
 
-    .streamCard__img {
-        position: relative;
-    }
-
-    .streamCard:hover .streamCard__img::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 98%;
-        background-color: rgba(48, 191, 183, 0.9);
-        opacity: 0;
-        border-radius: 5px;
-        transition: .5s ease;
-    }
-
-    .streamCard:hover .postTitle {
-        color: #30bfb7;
-    }
-
-    .streamCard:hover .streamCard__img::before {
-        opacity: 0.23;
-    }
-
-
-    .streamCard__content {
-        min-width: 555px;
-    }
 
     .footer-desc {
         width: 38.6875rem;
@@ -845,3 +824,4 @@ header {
 
 /*-------- (Desktop, 1920 and up) 20 inch monitor and up*/
 @media (min-width: 1920px) {}
+</style>
